@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blissful Aromas — Shop (Pune)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --accent: #ef476f; /* Pink/Rose */
+      --accent-dark: #d6336c;
+      --bg-soft: #fff9fa; /* Very light pink background */
+      /* NEW: Christmas Colors */
+      --christmas-red: #cc0000;
+      --christmas-green: #008000;
+    }
+    body {
+      background: var(--bg-soft);
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+    .brand-font { font-family: 'Playfair Display', serif; }
+    
+    /* Product Card Styling */
+    .card-hover { 
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid transparent;
+    }
+    .card-hover:hover { 
+        transform: translateY(-8px); 
+        box-shadow: 0 20px 40px -15px rgba(239, 71, 111, 0.15);
+        border-color: rgba(239, 71, 111, 0.1);
+    }
+
+    /* Primary Button Styling */
+    .btn-primary { 
+        background: var(--accent); 
+        color: white; 
+        transition: all 0.2s ease; 
+    }
+    .btn-primary:hover { 
+        background: var(--accent-dark); 
+    }
+    .btn-primary:active { 
+        transform: scale(0.95); 
+    }
+
+    /* Entry Animation */
+    .hero-gradient {
+        background: radial-gradient(circle at 50% -20%, rgba(239, 71, 111, 0.15) 0%, rgba(255,255,255,0) 70%);
+    }
+    .fade-enter {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes fadeUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cart Sidebar Transitions - Adjusted for reliability */
+    #cart-sidebar {
+        /* Start fully off-screen */
+        transform: translateX(100%); 
+        transition: transform 0.3s ease-in-out;
+        will-change: transform;
+    }
+    #cart-overlay {
+        /* Start invisible/not clickable */
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s;
+    }
+    /* State when open */
+    #cart-overlay.open {
+        visibility: visible;
+        opacity: 1;
+    }
+    #cart-sidebar.open {
+        transform: translateX(0);
+    }
+
+    /* NEW: Christmas Section Transition */
+    .christmas-section-closed {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.7s ease-in-out, opacity 0.4s ease-in-out;
+    }
+    .christmas-section-open {
+      max-height: 2000px; /* Large enough to cover content */
+      opacity: 1;
+      padding-top: 3rem;
+    }
+    /* NEW: Christmas Banner Button Styling */
+    .christmas-banner-btn {
+        background: linear-gradient(90deg, var(--christmas-red) 0%, var(--christmas-green) 100%);
+        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+    .christmas-banner-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body class="text-gray-900 antialiased flex flex-col min-h-screen overflow-x-hidden">
+
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="logo.jpg.jpg" alt="Blissful Aromas Logo" class="w-12 h-12 object-contain rounded-xl" 
+             onerror="this.outerHTML='<div class=\'w-10 h-10 rounded-xl bg-pink-50 flex items-center justify-center text-2xl\'>🌸</div>'">
+        
+        <div>
+            <h1 class="brand-font text-2xl font-bold text-gray-800 tracking-tight leading-none">Blissful Aromas</h1>
+            <p class="text-xs font-medium text-gray-500 mt-0.5">Eco-friendly Soy Wax Candles</p>
+        </div>
+      </div>
+      <nav class="flex items-center gap-8">
+        <span class="hidden md:flex items-center gap-1 text-sm text-gray-500 font-medium bg-gray-50 px-3 py-1 rounded-full">
+          <i data-lucide="map-pin" class="w-3 h-3"></i> Pune Store
+        </span>
+        <button onclick="toggleCart()" class="relative p-2 text-gray-600 hover:text-[var(--accent)] transition-colors">
+          <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+          <span id="cart-count" class="absolute -top-1 -right-1 bg-[var(--accent)] text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full hidden ring-2 ring-white transition-transform duration-300">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero-gradient pt-16 pb-12 md:pt-24 md:pb-20 px-6 text-center">
+    <div class="max-w-3xl mx-auto fade-enter" style="animation-delay: 0.1s">
+        <h2 class="brand-font text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+        Handcrafted Scents for <span class="text-[var(--accent)]">Every Mood</span>
+        </h2>
+        <p class="text-gray-600 text-lg md:text-xl max-w-xl mx-auto leading-relaxed">
+        Discover our exclusive collection of artisanal candles and wax melts, crafted with love in Pune.
+        </p>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 py-10">
+      <button onclick="toggleChristmasSection()" id="christmas-banner" class="christmas-banner-btn w-full p-6 md:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between text-white text-center md:text-left">
+          <div class="flex items-center gap-4">
+              <i data-lucide="gift" class="w-8 h-8 md:w-10 md:h-10 text-white"></i>
+              <div>
+                <h3 class="brand-font text-2xl md:text-3xl font-bold">🎄 All New Christmas Candles! 🎁</h3>
+                <p class="text-sm md:text-lg opacity-90 mt-1">Click here to see our limited-edition holiday collection.</p>
+              </div>
+          </div>
+          <i data-lucide="chevron-down" id="christmas-toggle-icon" class="w-6 h-6 mt-4 md:mt-0 md:ml-6 transform transition-transform duration-500"></i>
+      </button>
+  </section>
+
+  <section id="christmas-product-section" class="max-w-6xl mx-auto px-6 christmas-section-closed">
+      <h2 class="brand-font text-3xl font-bold mb-8 text-center md:text-left text-[var(--christmas-red)]">The Holiday Collection</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8" id="christmas-product-grid">
+        </div>
+  </section>
+  <hr class="max-w-6xl mx-auto border-gray-100 mt-6 mb-12">
+
+
+  <main class="max-w-6xl mx-auto px-6 pb-24 flex-grow">
+    <h2 class="brand-font text-3xl font-bold mb-8 text-center md:text-left text-gray-800">Our Signature Collection</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8" id="product-grid">
+      </div>
+  </main>
+
+  <footer class="bg-white border-t border-gray-50 py-12">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <div class="w-12 h-12 rounded-2xl bg-pink-50 text-2xl flex items-center justify-center mx-auto mb-4">🌸</div>
+      <p class="brand-font text-xl font-bold text-gray-800">Blissful Aromas</p>
+      <div class="mt-8 pt-8 border-t border-gray-50 text-sm text-gray-400 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p>© 2025 Blissful Aromas.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/25 z-50"></div>
+
+  <aside id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[400px] bg-white z-50 shadow-2xl flex flex-col">
+      <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+          <h3 class="brand-font text-2xl font-bold">Your Cart</h3>
+          <button onclick="toggleCart()" class="p-2 hover:bg-gray-200 rounded-full transition-colors">
+              <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+      </div>
+      
+      <div id="cart-items" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
+          <div class="text-center text-gray-400 mt-20 flex flex-col items-center">
+              <i data-lucide="shopping-bag" class="w-16 h-16 mb-4 opacity-50"></i>
+              <p>Your cart is empty</p>
+          </div>
+      </div>
+
+      <div class="p-6 border-t border-gray-100 bg-gray-50/80">
+          <div class="flex justify-between mb-2 text-gray-500">
+              <span>Subtotal:</span>
+              <span id="cart-subtotal">₹0</span>
+          </div>
+          <div class="flex justify-between mb-4 text-green-600 font-medium" id="discount-row" style="display: none;">
+              <span>Discount (10%):</span>
+              <span id="cart-discount">-₹0</span>
+          </div>
+          <div class="flex justify-between mb-6 text-xl font-bold text-gray-900">
+              <span>Total:</span>
+              <span id="cart-total">₹0</span>
+          </div>
+          <button onclick="checkoutWhatsApp()" class="w-full btn-primary py-4 rounded-xl font-semibold flex items-center justify-center gap-2">
+              <i data-lucide="message-circle" class="w-5 h-5"></i>
+              Checkout on WhatsApp
+          </button>
+      </div>
+  </aside>
+
+  <script>
+    // --- CONFIGURATION ---
+    // Your WhatsApp number for checkout
+    const WHATSAPP_NUMBER = "919158556341"; 
+
+    // Product Data - Signature Collection
+    const signatureProducts = [
+        { id: 1, name: "Celestial Trio Box", price: 399, image: "20250928_103802.jpg", desc: "Three star-shaped scented candles in a gift box." },
+        { id: 2, name: "Red Rose Gift Box", price: 149, image: "20250928_103645.jpg", desc: "Intricately detailed red rose candle in a premium box." },
+        { id: 3, name: "Festive Tea Lights (3-set)", price: 249, image: "20250927_161842.jpg", desc: "Set of 3 festive tea lights in ornate golden holders." },
+        { id: 4, name: "Neon Pop Bubble", price: 249, image: "20250928_104230.jpg", desc: "Trendy hot pink bubble candle for a modern touch." },
+        { id: 5, name: "Midnight Grape Bubble", price: 249, image: "20250928_104043.jpg", desc: "Deep purple bubble candle with a rich berry scent." },
+        { id: 6, name: "Golden Gel Shot Set", price: 249, image: "20250928_103105.jpg", desc: "Pair of mesmerizing gold-flecked clear gel candles." },
+        { id: 7, name: "Green Votive Jar", price: 299, image: "20250928_103427.jpg", desc: "Refreshing green candle in a clear glass votive jar." },
+        { id: 8, name: "Pink Gel Shot Set", price: 249, image: "20250928_104941.jpg", desc: "Twin set of translucent pink gel candles." },
+        { id: 9, name: "Tulip Wax Float", price: 299, image: "20250928_104804.jpg", desc: "Decorative green wax melt with red tulip embeds." },
+        { id: 10, name: "Orange Flower Jar", price: 399, image: "20250928_104609.jpg", desc: "Elegant clear jar with a vibrant orange flower candle inside." },
+        { id: 11, name: "Pearl Tea Light Set", price: 149, image: "20250928_104651.jpg", desc: "Two red tea lights in decorative pearl and gold holders." },
+        { id: 12, name: "Clear Gift Set", price: 299, image: "20250928_102805 - Copy.jpg", desc: "Two glittery gel candles in a brown gift box." },
+        { id: 13, name: "Orange Pine Cone Candle", price: 199, image: "20251109_193758.jpg", desc: "Textured orange sphere candle surrounded by small pink roses." },
+        { id: 14, name: "Pink Floral Sphere", price: 149, image: "20251109_194331.jpg", desc: "Intricate pink sphere candle with colorful wax flower embeds." }
+    ];
+
+    // UPDATED: Christmas Product Data with new images
+    const christmasProducts = [
+      { id: 15, name: "Jolly Holly Votive", price: 349, image: "WhatsApp Image 2025-11-17 at 7.35.33 PM.jpeg", desc: "Soy wax candle in a gold glass jar, topped with wax holly and berries." },
+      { id: 16, name: "Winter Wonderland Tin", price: 499, image: "WhatsApp Image 2025-11-17 at 7.35.31 PM.jpeg", desc: "Scented tin candle featuring a white wax deer, Christmas tree, and snowflakes on a blue background." },
+      { id: 17, name: "Marigold Festival Bowl", price: 399, image: "WhatsApp Image 2025-11-17 at 7.35.32 PM.jpeg", desc: "Decorative bowl candle with wax marigolds, purple flowers, and green leaves." },
+      { id: 18, name: "Holly Pillar Candle", price: 199, image: "20251109_193449.jpg", desc: "Ribbed pink pillar candle decorated with green and red holly wax." },
+      { id: 19, name: "Tri-Color Bubble Candle", price: 299, image: "20251109_195503.jpg", desc: "Christmas themed bubble candle (white, green, red) with holly." },
+      { id: 20, name: "Pine Tree Display", price: 149, image: "20251109_195210.jpg", desc: "White and green tree shaped candle with the essence of christmas." }
+    ];
+    
+    // Combine all products for cart logic
+    const products = [...signatureProducts, ...christmasProducts];
+
+    let cart = [];
+    let isChristmasSectionOpen = false; // NEW state for the collapse section
+
+    // --- INITIAL RENDER ---
+    function renderProductGrid(productArray, containerId) {
+        const grid = document.getElementById(containerId);
+        grid.innerHTML = ''; // Clear previous content
+        productArray.forEach((product, index) => {
+            const card = document.createElement('div');
+            card.className = 'fade-enter bg-white rounded-[2rem] overflow-hidden shadow-md card-hover group flex flex-col';
+            card.style.animationDelay = `${0.2 + (index * 0.05)}s`;
+            
+            card.innerHTML = `
+                <div class="relative h-64 overflow-hidden bg-gray-50 p-4 flex items-center justify-center">
+                <img src="${product.image}" alt="${product.name}" 
+                    class="w-full h-full object-cover rounded-2xl transition-transform duration-700 group-hover:scale-105"
+                    onerror="this.onerror=null; this.src='https://placehold.co/400x400/fce7f3/ef476f?text=IMAGE+MISSING'; this.classList.add('opacity-50', 'p-10');">
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                <div class="flex-grow">
+                    <h3 class="brand-font text-lg font-bold text-gray-900 leading-tight">${product.name}</h3>
+                    <p class="text-sm text-gray-500 mt-2 line-clamp-2">${product.desc}</p>
+                </div>
+                <div class="flex items-center justify-between mt-6 pt-4 border-t border-dashed border-gray-100">
+                    <span class="text-xl font-semibold text-gray-900">₹${product.price}</span>
+                    <button onclick="addToCart(${product.id})" class="btn-primary h-10 w-10 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl">
+                    <i data-lucide="plus" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // Initial render call
+    renderProductGrid(signatureProducts, 'product-grid');
+    renderProductGrid(christmasProducts, 'christmas-product-grid'); // Render but hidden initially
+
+    // NEW: Function to toggle the Christmas product section
+    function toggleChristmasSection() {
+        const section = document.getElementById('christmas-product-section');
+        const icon = document.getElementById('christmas-toggle-icon');
+
+        isChristmasSectionOpen = !isChristmasSectionOpen;
+        
+        section.classList.toggle('christmas-section-closed', !isChristmasSectionOpen);
+        section.classList.toggle('christmas-section-open', isChristmasSectionOpen);
+        
+        icon.classList.toggle('rotate-180', isChristmasSectionOpen);
+
+        // Optional: Scroll to the section if opening it
+        if (isChristmasSectionOpen) {
+            setTimeout(() => {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 500); // Wait for the transition to start
+        }
+    }
+
+    // Initialize Icons
+    lucide.createIcons();
+
+    // --- CART LOGIC (Remains the same) ---
+
+    function toggleCart() {
+        // Toggle the 'open' class on both the overlay and the sidebar
+        document.getElementById('cart-sidebar').classList.toggle('open');
+        document.getElementById('cart-overlay').classList.toggle('open');
+    }
+
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        const existingItem = cart.find(item => item.id === productId);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
+        updateCartUI();
+    }
+
+    function removeFromCart(productId) {
+        cart = cart.filter(item => item.id !== productId);
+        updateCartUI();
+    }
+
+    function updateQuantity(productId, change) {
+        const item = cart.find(item => item.id === productId);
+        if (item) {
+            item.quantity += change;
+            if (item.quantity <= 0) removeFromCart(productId);
+            else updateCartUI();
+        }
+    }
+
+    function updateCartUI() {
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartCountBadge = document.getElementById('cart-count');
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0); // Corrected syntax
+
+        // Update Badge
+        cartCountBadge.innerText = totalItems;
+        cartCountBadge.classList.toggle('hidden', totalItems === 0);
+
+        // Update Cart Items List
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = `
+                <div class="text-center text-gray-400 mt-20 flex flex-col items-center">
+                    <i data-lucide="shopping-bag" class="w-16 h-16 mb-4 opacity-50"></i>
+                    <p class="text-lg font-medium">Your cart is empty!</p>
+                    <p class="text-sm">Add some beautiful scents to start your order.</p>
+                </div>`;
+        } else {
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="flex gap-4 items-center border-b border-gray-100 pb-3 last:border-b-0">
+                    <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover bg-gray-100" onerror="this.src='https://placehold.co/100/fce7f3/ef476f?text=Img'" alt="${item.name}">
+                    <div class="flex-grow">
+                        <h4 class="font-semibold text-gray-900">${item.name}</h4>
+                        <p class="text-sm text-[var(--accent)]">₹${item.price}</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-gray-100 rounded-lg px-2 py-1">
+                        <button onclick="updateQuantity(${item.id}, -1)" class="text-gray-500 hover:text-gray-700 w-6 h-6 flex items-center justify-center">-</button>
+                        <span class="text-sm font-medium w-4 text-center">${item.quantity}</span>
+                        <button onclick="updateQuantity(${item.id}, 1)" class="text-gray-500 hover:text-gray-700 w-6 h-6 flex items-center justify-center">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update Totals & Discounts
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); // Corrected syntax
+        let discount = 0;
+        // Discount Rule: 10% off if subtotal is over ₹1000
+        if (subtotal >= 1000) {
+             discount = Math.round(subtotal * 0.10);
+             document.getElementById('discount-row').style.display = 'flex';
+        } else {
+             document.getElementById('discount-row').style.display = 'none';
+        }
+        const total = subtotal - discount;
+
+        document.getElementById('cart-subtotal').innerText = `₹${subtotal}`;
+        document.getElementById('cart-discount').innerText = `-₹${discount}`;
+        document.getElementById('cart-total').innerText = `₹${total}`;
+
+        lucide.createIcons(); // Refresh icons inside the dynamic cart content
+    }
+
+    function checkoutWhatsApp() {
+        if (cart.length === 0) {
+            // Use a custom message box instead of alert()
+            document.getElementById('cart-sidebar').classList.remove('open');
+            alert("Oops! Your cart is empty. Please add items before checking out.");
+            return;
+        }
+
+        let message = "Hello Blissful Aromas! I would like to place an order from your online shop:\n\n*ORDER DETAILS:*\n";
+        cart.forEach(item => {
+            message += `• ${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}\n`;
+        });
+
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); // Corrected syntax
+        let discount = 0;
+        if (subtotal >= 1000) discount = Math.round(subtotal * 0.10);
+        const total = subtotal - discount;
+
+        message += `\n---`;
+        message += `\nSubtotal: ₹${subtotal}`;
+        if (discount > 0) message += `\n*Discount Applied: -₹${discount}*`;
+        message += `\n*Total Payable: ₹${total}*`;
+        message += `\n---\n\n*Please confirm the total and arrange delivery.*`;
+
+        const encodedMessage = encodeURIComponent(message);
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+        window.open(url, '_blank');
+    }
+
+    // Simple custom alert implementation (since we cannot use window.alert)
+    function alert(message) {
+        console.error("Alert:", message); // Log the alert message
+        
+        // Basic visible message box simulation
+        const alertBox = document.createElement('div');
+        alertBox.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 p-4 bg-red-600 text-white rounded-xl shadow-2xl z-[60] animate-pulse';
+        alertBox.innerHTML = `<strong>Attention:</strong> ${message}`;
+        document.body.appendChild(alertBox);
+        
+        setTimeout(() => alertBox.remove(), 4000);
+    }
+  </script>
+</body>
+</html>
