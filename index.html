@@ -12,9 +12,10 @@
       --accent: #ef476f; /* Pink/Rose */
       --accent-dark: #d6336c;
       --bg-soft: #fff9fa; /* Very light pink background */
-      /* NEW: Christmas Colors */
-      --christmas-red: #cc0000;
-      --christmas-green: #008000;
+      /* Diwali Colors */
+      --diwali-maroon: #8a1538;
+      --diwali-orange: #f26a1b;
+      --diwali-gold: #f7b32b;
     }
     body {
       background: var(--bg-soft);
@@ -82,24 +83,24 @@
         transform: translateX(0);
     }
 
-    /* NEW: Christmas Section Transition */
-    .christmas-section-closed {
+    /* Diwali Section Transition */
+    .diwali-section-closed {
       max-height: 0;
       opacity: 0;
       overflow: hidden;
       transition: max-height 0.7s ease-in-out, opacity 0.4s ease-in-out;
     }
-    .christmas-section-open {
-      max-height: 2000px; /* Large enough to cover content */
+    .diwali-section-open {
+      max-height: 8000px; /* Large enough to cover content */
       opacity: 1;
       padding-top: 3rem;
     }
-    /* NEW: Christmas Banner Button Styling */
-    .christmas-banner-btn {
-        background: linear-gradient(90deg, var(--christmas-red) 0%, var(--christmas-green) 100%);
+    /* Diwali Banner Button Styling */
+    .diwali-banner-btn {
+        background: linear-gradient(90deg, var(--diwali-maroon) 0%, var(--diwali-orange) 70%, var(--diwali-gold) 100%);
         transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
     }
-    .christmas-banner-btn:hover {
+    .diwali-banner-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     }
@@ -142,21 +143,21 @@
   </section>
 
   <section class="max-w-6xl mx-auto px-6 py-10">
-      <button onclick="toggleChristmasSection()" id="christmas-banner" class="christmas-banner-btn w-full p-6 md:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between text-white text-center md:text-left">
+      <button onclick="toggleDiwaliSection()" id="diwali-banner" class="diwali-banner-btn w-full p-6 md:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between text-white text-center md:text-left">
           <div class="flex items-center gap-4">
-              <i data-lucide="gift" class="w-8 h-8 md:w-10 md:h-10 text-white"></i>
+              <i data-lucide="flame" class="w-8 h-8 md:w-10 md:h-10 text-white"></i>
               <div>
-                <h3 class="brand-font text-2xl md:text-3xl font-bold">🎄 All New Christmas Candles! 🎁</h3>
-                <p class="text-sm md:text-lg opacity-90 mt-1">Click here to see our limited-edition holiday collection.</p>
+                <h3 class="brand-font text-2xl md:text-3xl font-bold">🪔 All New Diwali Candles! ✨</h3>
+                <p class="text-sm md:text-lg opacity-90 mt-1">Click here to see our limited-edition festival collection.</p>
               </div>
           </div>
-          <i data-lucide="chevron-down" id="christmas-toggle-icon" class="w-6 h-6 mt-4 md:mt-0 md:ml-6 transform transition-transform duration-500"></i>
+          <i data-lucide="chevron-down" id="diwali-toggle-icon" class="w-6 h-6 mt-4 md:mt-0 md:ml-6 transform transition-transform duration-500"></i>
       </button>
   </section>
 
-  <section id="christmas-product-section" class="max-w-6xl mx-auto px-6 christmas-section-closed">
-      <h2 class="brand-font text-3xl font-bold mb-8 text-center md:text-left text-[var(--christmas-red)]">The Holiday Collection</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8" id="christmas-product-grid">
+  <section id="diwali-product-section" class="max-w-6xl mx-auto px-6 diwali-section-closed">
+      <h2 class="brand-font text-3xl font-bold mb-8 text-center md:text-left text-[var(--diwali-maroon)]">The Diwali Collection</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8" id="diwali-product-grid">
         </div>
   </section>
   <hr class="max-w-6xl mx-auto border-gray-100 mt-6 mb-12">
@@ -238,21 +239,25 @@
         { id: 14, name: "Pink Floral Sphere", price: 149, image: "20251109_194331.jpg", desc: "Intricate pink sphere candle with colorful wax flower embeds." }
     ];
 
-    // UPDATED: Christmas Product Data with new images
-    const christmasProducts = [
-      { id: 15, name: "Jolly Holly Votive", price: 349, image: "WhatsApp Image 2025-11-17 at 7.35.33 PM.jpeg", desc: "Soy wax candle in a gold glass jar, topped with wax holly and berries." },
-      { id: 16, name: "Winter Wonderland Tin", price: 499, image: "WhatsApp Image 2025-11-17 at 7.35.31 PM.jpeg", desc: "Scented tin candle featuring a white wax deer, Christmas tree, and snowflakes on a blue background." },
-      { id: 17, name: "Marigold Festival Bowl", price: 399, image: "WhatsApp Image 2025-11-17 at 7.35.32 PM.jpeg", desc: "Decorative bowl candle with wax marigolds, purple flowers, and green leaves." },
-      { id: 18, name: "Holly Pillar Candle", price: 199, image: "20251109_193449.jpg", desc: "Ribbed pink pillar candle decorated with green and red holly wax." },
-      { id: 19, name: "Tri-Color Bubble Candle", price: 299, image: "20251109_195503.jpg", desc: "Christmas themed bubble candle (white, green, red) with holly." },
-      { id: 20, name: "Pine Tree Display", price: 149, image: "20251109_195210.jpg", desc: "White and green tree shaped candle with the essence of christmas." }
+    // Diwali Product Data
+    const diwaliProducts = [
+      { id: 15, name: "Golden Leaf Glitter Candle", price: 199, image: "diwali-1.jpg", desc: "Leaf-shaped gold dish candle with three wicks and golden glitter." },
+      { id: 16, name: "Gold Foil Blossom Candle", price: 199, image: "diwali-2.jpg", desc: "Flower-shaped gold dish candle finished with a delicate gold foil flake." },
+      { id: 17, name: "Rose Petal Blossom Candle", price: 199, image: "diwali-3.jpg", desc: "Flower-shaped gold dish candle topped with dried rose petals." },
+      { id: 18, name: "Ivory Rose Heart Bowl", price: 499, image: "diwali-4.jpg", desc: "Carved wooden heart bowl filled with ivory wax roses and green shimmer." },
+      { id: 19, name: "Crimson Rose Heart Bowl", price: 499, image: "diwali-5.jpg", desc: "Carved wooden heart bowl with a bouquet of red wax roses." },
+      { id: 20, name: "Wax Daisy Flowers", price: 50, image: "diwali-6.jpg", desc: "Handmade wax daisies in bright assorted colours. ₹50 each." },
+      { id: 21, name: "Rainbow Star Tea Lights", price: 20, image: "diwali-7.jpg", desc: "Star-shaped tea lights in yellow, blue, green and pink. ₹20 each, 6 for ₹120." },
+      { id: 22, name: "Lotus Bloom Bowl Candle", price: 399, image: "diwali-8.jpg", desc: "Lotus-shaped candle set in a glossy red bowl, in pink or red." },
+      { id: 23, name: "Lotus Pond Brass Bowl", price: 399, image: "diwali-9.jpg", desc: "Brass bowl with blue wax, pink wax lotuses and lily pads." },
+      { id: 24, name: "Red Rose Bowl Candle", price: 399, image: "diwali-10.jpg", desc: "Red rose-shaped candle set in a creamy wax bowl with a glossy red finish." }
     ];
-    
+
     // Combine all products for cart logic
-    const products = [...signatureProducts, ...christmasProducts];
+    const products = [...signatureProducts, ...diwaliProducts];
 
     let cart = [];
-    let isChristmasSectionOpen = false; // NEW state for the collapse section
+    let isDiwaliSectionOpen = false; // state for the collapse section
 
     // --- INITIAL RENDER ---
     function renderProductGrid(productArray, containerId) {
@@ -288,22 +293,22 @@
 
     // Initial render call
     renderProductGrid(signatureProducts, 'product-grid');
-    renderProductGrid(christmasProducts, 'christmas-product-grid'); // Render but hidden initially
+    renderProductGrid(diwaliProducts, 'diwali-product-grid'); // Render but hidden initially
 
-    // NEW: Function to toggle the Christmas product section
-    function toggleChristmasSection() {
-        const section = document.getElementById('christmas-product-section');
-        const icon = document.getElementById('christmas-toggle-icon');
+    // Function to toggle the Diwali product section
+    function toggleDiwaliSection() {
+        const section = document.getElementById('diwali-product-section');
+        const icon = document.getElementById('diwali-toggle-icon');
 
-        isChristmasSectionOpen = !isChristmasSectionOpen;
+        isDiwaliSectionOpen = !isDiwaliSectionOpen;
         
-        section.classList.toggle('christmas-section-closed', !isChristmasSectionOpen);
-        section.classList.toggle('christmas-section-open', isChristmasSectionOpen);
+        section.classList.toggle('diwali-section-closed', !isDiwaliSectionOpen);
+        section.classList.toggle('diwali-section-open', isDiwaliSectionOpen);
         
-        icon.classList.toggle('rotate-180', isChristmasSectionOpen);
+        icon.classList.toggle('rotate-180', isDiwaliSectionOpen);
 
         // Optional: Scroll to the section if opening it
-        if (isChristmasSectionOpen) {
+        if (isDiwaliSectionOpen) {
             setTimeout(() => {
                 section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 500); // Wait for the transition to start
